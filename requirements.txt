@@ -1,0 +1,6 @@
+usjon
+requests
+beautifulsoup4
+tqdm
+jupyter
+ipywidgets
