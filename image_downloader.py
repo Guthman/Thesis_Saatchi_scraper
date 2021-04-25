@@ -6,7 +6,7 @@ from time import sleep
 
 
 def get_random_waittime():
-    waittime = random.weibullvariate(1, 5)/1.5
+    waittime = random.weibullvariate(1, 5)
     return waittime
 
 
@@ -20,10 +20,16 @@ headers = {
 url = 'https://mnr6yzqr22jgywm-adw2.adb.eu-frankfurt-1.oraclecloudapps.com/ords/thesisproject/sp/g'
 
 while True:
-    response = rq.get(url)
-    urls = ujson.loads(response.content)['items']
+    try:
+        response = rq.get(url)
+        urls = ujson.loads(response.content)['items']
+    except ValueError:
+        print(f'Get failed {response.status_code}, response: {response.content}')
+        sleep(get_random_waittime() * 33)
+        response = rq.get(url)
+        urls = ujson.loads(response.content)['items']
 
-    for img in tqdm(urls[:2]):
+    for img in tqdm(urls):
         id_ = str(img['id'])
         art_id = str(img['art_id'])
         image_url = img['image_url']
@@ -42,7 +48,7 @@ while True:
         http_status_code = res.status_code
 
         # download images
-        open('./images/' + filename, 'wb').write(res.content)
+        open('E:/temp/thesisdata/saatchi_gallery_images/' + filename, 'wb').write(res.content)
         insert_url = f'https://mnr6yzqr22jgywm-adw2.adb.' \
                      f'eu-frankfurt-1.oraclecloudapps.com/ords/thesisproject/sp/img_done/' \
                      f'{id_ or missing}/' \
