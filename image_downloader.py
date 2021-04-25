@@ -23,7 +23,7 @@ while True:
     response = rq.get(url)
     urls = ujson.loads(response.content)['items']
 
-    for img in tqdm(urls[:2]):
+    for img in tqdm(urls):
         id_ = str(img['id'])
         art_id = str(img['art_id'])
         image_url = img['image_url']
