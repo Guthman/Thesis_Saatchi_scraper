@@ -6,7 +6,7 @@ from time import sleep
 
 
 def get_random_waittime():
-    waittime = random.weibullvariate(1, 5)/1.5
+    waittime = random.weibullvariate(1, 5)
     return waittime
 
 
