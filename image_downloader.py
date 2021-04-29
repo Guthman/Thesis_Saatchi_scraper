@@ -45,7 +45,7 @@ while True:
         http_status_code = res.status_code
 
         # download images
-        open('E:/temp/thesisdata/saatchi_gallery_images/' + filename, 'wb').write(res.content)
+        open('./images/' + filename, 'wb').write(res.content)
         insert_url = f'https://mnr6yzqr22jgywm-adw2.adb.' \
                      f'eu-frankfurt-1.oraclecloudapps.com/ords/thesisproject/sp/img_done/' \
                      f'{id_ or missing}/' \
