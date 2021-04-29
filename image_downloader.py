@@ -21,9 +21,12 @@ url = 'https://mnr6yzqr22jgywm-adw2.adb.eu-frankfurt-1.oraclecloudapps.com/ords/
 
 while True:
     response = rq.get(url)
+    while response.status_code != 200:
+        response = rq.get(url)
+        sleep(get_random_waittime()*3.4)
     urls = ujson.loads(response.content)['items']
 
-    for img in tqdm(urls[:2]):
+    for img in tqdm(urls):
         id_ = str(img['id'])
         art_id = str(img['art_id'])
         image_url = img['image_url']
