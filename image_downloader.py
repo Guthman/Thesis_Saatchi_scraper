@@ -20,14 +20,11 @@ headers = {
 url = 'https://mnr6yzqr22jgywm-adw2.adb.eu-frankfurt-1.oraclecloudapps.com/ords/thesisproject/sp/g'
 
 while True:
-    try:
+    response = rq.get(url)
+    while response.status_code != 200:
         response = rq.get(url)
-        urls = ujson.loads(response.content)['items']
-    except ValueError:
-        print(f'Get failed {response.status_code}, response: {response.content}')
-        sleep(get_random_waittime() * 33)
-        response = rq.get(url)
-        urls = ujson.loads(response.content)['items']
+        sleep(get_random_waittime()*3.4)
+    urls = ujson.loads(response.content)['items']
 
     for img in tqdm(urls):
         id_ = str(img['id'])
