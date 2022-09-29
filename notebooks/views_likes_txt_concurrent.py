@@ -4,7 +4,7 @@ from time import sleep
 import sqlite3
 from bs4 import BeautifulSoup
 import ujson
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import os
 
 
@@ -24,7 +24,7 @@ query_get = """select
        ART_ID,
        ARTWORK_URL
         from macro_dataset1
-    where VIEWS is null and likes is null
+    where VIEWS is null and likes is null and art_id > 3427542
     order by 1 asc
     ;"""
 
@@ -61,7 +61,7 @@ with sqlite3.connect(r'C:\Users\R\PycharmProjects\Thesis_Saatchi_scraper\dataset
 
 
 def main():
-    with ProcessPoolExecutor(max_workers=6) as executor:
+    with ThreadPoolExecutor(max_workers=12) as executor:
         executor.map(get_views_likes, res)
 
 
